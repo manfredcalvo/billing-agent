@@ -3,7 +3,7 @@ set -euo pipefail
 
 # End-to-end deploy for the single-app billing-agent bundle.
 #   ./scripts/deploy.sh [profile] [target]
-# Defaults: profile=andreas_workspace, target=dev
+# Defaults: profile=DEFAULT, target=dev
 #
 # Steps:
 #   1. Initial deploy (creates the Lakebase project; the app fails until the DB ID is set)
@@ -15,7 +15,7 @@ set -euo pipefail
 # The agent creates its LangGraph checkpoint tables on the first chat through the UI;
 # because the app SP owns those tables it retains full access — no cross-grant needed.
 
-PROFILE="${1:-andreas_workspace}"
+PROFILE="${1:-DEFAULT}"
 TARGET="${2:-dev}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"

@@ -207,7 +207,7 @@ auto-generated Lakebase database ID and writing it into `databricks.yml`, redepl
 starting the app, and granting the app's service principal its Lakebase role:
 
 ```bash
-./scripts/deploy.sh [profile] [target]   # defaults: profile=andreas_workspace, target=dev
+./scripts/deploy.sh [profile] [target]   # defaults: profile=DEFAULT, target=dev
 ```
 
 When it finishes it prints the app URL, which serves both the chat UI (`/`) and the agent

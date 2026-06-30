@@ -24,7 +24,7 @@
 # COMMAND ----------
 
 APP_NAME = "billing-agent"
-PROJECT_ID = "billing-db-dev-manffred-calvosanchez"
+PROJECT_ID = "billing-db-dev-<your-username>"  # e.g. billing-db-dev-jane-doe
 
 # COMMAND ----------
 
