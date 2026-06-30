@@ -11,7 +11,7 @@ the UI.
 
 ## Build with AI Assistance
 
-This template includes Claude Code skills in `.claude/skills/` for AI-assisted development. Use [Claude Code](https://docs.anthropic.com/en/docs/claude-code) to:
+This project includes Claude Code skills in `.claude/skills/` for AI-assisted development. Use [Claude Code](https://docs.anthropic.com/en/docs/claude-code) to:
 
 - **Set up your environment**: "Run quickstart to configure authentication"
 - **Add tools**: "Connect my agent to a Genie space"
@@ -175,10 +175,10 @@ Yes. Add additional files or folders as needed. Ensure the script within `pyproj
 Run `uv add <package_name>` (e.g., `uv add "mlflow-skinny[databricks]"`). See the [python pyproject.toml guide](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#dependencies-and-requirements).
 
 **Q: Can I add custom tracing beyond the built-in tracing?**
-Yes. This template uses MLflow's agent server, which comes with automatic tracing for agent logic decorated with `@invoke()` and `@stream()`. It also uses [MLflow autologging APIs](https://mlflow.org/docs/latest/genai/tracing/#one-line-auto-tracing-integrations) to capture traces from LLM invocations. However, you can add additional instrumentation to capture more granular trace information when your agent runs. See the [MLflow tracing documentation](https://docs.databricks.com/aws/en/mlflow3/genai/tracing/app-instrumentation/).
+Yes. This project uses MLflow's agent server, which comes with automatic tracing for agent logic decorated with `@invoke()` and `@stream()`. It also uses [MLflow autologging APIs](https://mlflow.org/docs/latest/genai/tracing/#one-line-auto-tracing-integrations) to capture traces from LLM invocations. However, you can add additional instrumentation to capture more granular trace information when your agent runs. See the [MLflow tracing documentation](https://docs.databricks.com/aws/en/mlflow3/genai/tracing/app-instrumentation/).
 
 **Q: How can I extend this example with additional tools and capabilities?**
-This template can be extended by integrating additional MCP servers, Vector Search Indexes, UC Functions, and other Databricks tools. See the ["Agent Framework Tools Documentation"](https://docs.databricks.com/aws/en/generative-ai/agent-framework/agent-tool).
+This project can be extended by integrating additional MCP servers, Vector Search Indexes, UC Functions, and other Databricks tools. See the ["Agent Framework Tools Documentation"](https://docs.databricks.com/aws/en/generative-ai/agent-framework/agent-tool).
 
 ## Evaluating your agent
 
