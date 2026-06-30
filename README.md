@@ -200,6 +200,23 @@ This project uses [Databricks Asset Bundles (DABs)](https://docs.databricks.com/
 
 Ensure you have the [Databricks CLI](https://docs.databricks.com/aws/en/dev-tools/cli/tutorial) installed and configured.
 
+### Automated deploy (recommended)
+
+`scripts/deploy.sh` runs the whole flow end-to-end — initial deploy, capturing the
+auto-generated Lakebase database ID and writing it into `databricks.yml`, redeploying,
+starting the app, and granting the app's service principal its Lakebase role:
+
+```bash
+./scripts/deploy.sh [profile] [target]   # defaults: profile=andreas_workspace, target=dev
+```
+
+When it finishes it prints the app URL, which serves both the chat UI (`/`) and the agent
+API (`/responses`, `/invocations`). The agent creates its LangGraph checkpoint tables on the
+first request. The steps below document what the script does, and are also the path to follow
+if you prefer to run them manually or need to troubleshoot.
+
+### Manual deploy
+
 1. **Run the pre-flight check**
 
    Start the agent locally, send a test request, and verify the response to catch configuration and code errors early:
