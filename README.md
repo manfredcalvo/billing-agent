@@ -21,6 +21,55 @@ This project includes Claude Code skills in `.claude/skills/` for AI-assisted de
 
 The skills contain tested commands, code patterns, and troubleshooting steps.
 
+### Connecting Claude Code to Databricks
+
+Rather than purchasing an Anthropic subscription, you can route Claude Code API calls through your Databricks workspace AI Gateway. Claude Code then bills against your Databricks workspace spend — no separate Anthropic account or license is needed. (Adapted from [supervisor_end_to_end](https://github.com/manfredcalvo/supervisor_end_to_end#connecting-claude-code-to-databricks).)
+
+#### Project-Level Settings (Option A)
+
+Copy the template and fill in your values:
+
+```bash
+cp .claude/settings_template.json .claude/settings.json
+# Edit .claude/settings.json with your workspace AI Gateway URL and PAT
+```
+
+The file sets the following environment variables for Claude Code:
+
+| Variable | Description |
+|---|---|
+| `ANTHROPIC_BASE_URL` | Your workspace AI Gateway route |
+| `ANTHROPIC_MODEL` | Primary Claude model (e.g. `databricks-claude-opus-4-6`) |
+| `ANTHROPIC_DEFAULT_OPUS_MODEL` | Opus model override |
+| `ANTHROPIC_DEFAULT_SONNET_MODEL` | Sonnet model override |
+| `CLAUDE_CODE_SUBAGENT_MODEL` | Model used for background sub-agent tasks |
+| `ANTHROPIC_AUTH_TOKEN` | Your Databricks PAT |
+
+**Important:** `.claude/settings.json` is in `.gitignore` — never commit it since it contains your PAT. Only `.claude/settings_template.json` (with placeholders) is tracked.
+
+#### Global Settings (Option B)
+
+Configure the file below to apply the same settings across all projects on your machine.
+
+**Mac/Linux** — `~/.claude/settings.json`:
+
+```bash
+mkdir -p ~/.claude
+# Open in your preferred editor
+nano ~/.claude/settings.json
+```
+
+**Windows** — `%USERPROFILE%\.claude\settings.json`:
+
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude"
+notepad "$env:USERPROFILE\.claude\settings.json"
+```
+
+Paste the same JSON from `.claude/settings_template.json` (with your real values) into the file. No `.gitignore` entry is needed — the file lives outside any repository.
+
+**Precedence:** Project-level settings override global settings.
+
 ---
 
 This project defines a conversational billing agent with short-term memory. The app comes with a built-in chat UI (enabled both locally and in the deployed app), and also exposes an API endpoint for invoking the agent so that you can serve your own UI elsewhere (e.g. on your website or in a mobile app).

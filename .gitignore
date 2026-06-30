@@ -205,8 +205,10 @@ sketch
 **/.env
 **/.env.local
 
-# Claude Code - track skills only
+# Claude Code - track skills + the settings template only
+# (never track .claude/settings.json — it holds your Databricks PAT)
 .claude/*
+!.claude/settings_template.json
 !.claude/skills/
 .claude/skills/*
 !.claude/skills/quickstart/

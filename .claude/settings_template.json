@@ -1,0 +1,12 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://<workspace-id>.ai-gateway.cloud.databricks.com/anthropic",
+    "ANTHROPIC_MODEL": "databricks-claude-opus-4-6",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "databricks-claude-opus-4-6",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "databricks-claude-sonnet-4-6",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "databricks-claude-sonnet-4-6",
+    "ANTHROPIC_CUSTOM_HEADERS": "x-databricks-use-coding-agent-mode: true",
+    "ANTHROPIC_AUTH_TOKEN": "<your-databricks-pat>",
+    "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1"
+  }
+}
