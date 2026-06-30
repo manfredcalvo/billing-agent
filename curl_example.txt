@@ -1,0 +1,19 @@
+# Get OAuth token
+TOKEN=$(databricks auth token --profile <profile> | jq -r '.access_token')
+
+# Non-streaming request
+curl -X POST \
+  https://<app-url>.databricksapps.com/responses \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"input": [{"role": "user", "content": "hi"}]}'
+
+# With thread_id (continue conversation)
+curl -X POST \
+  https://<app-url>.databricksapps.com/responses \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input": [{"role": "user", "content": "What did we discuss?"}],
+    "custom_inputs": {"thread_id": "<thread-id-from-previous-response>"}
+  }'

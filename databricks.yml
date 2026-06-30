@@ -1,0 +1,80 @@
+bundle:
+  name: billing-agent
+
+variables:
+  resource_name_suffix:
+    description: "Suffix for Lakebase resource names (e.g. dev-manffred-calvosanchez)"
+  lakebase_database_id:
+    description: "Lakebase database ID — auto-generated on first deploy. Run: databricks postgres list-databases projects/billing-db-<suffix>/branches/production to find it."
+    default: "databricks-postgres"
+
+sync:
+  exclude:
+    - ".venv/**"
+    - ".databricks/**"
+    - "__pycache__/**"
+    - "mlruns/**"
+    - "e2e-chatbot-app-next/**"
+    - "*.log"
+
+resources:
+  postgres_projects:
+    billing_lakebase:
+      project_id: "billing-db-${var.resource_name_suffix}"
+      display_name: "Billing Agent DB"
+      pg_version: 17
+
+  experiments:
+    agent_experiment:
+      name: /Users/${workspace.current_user.userName}/billing-agent-exp
+
+  apps:
+    billing_agent:
+      name: "billing-agent"
+      description: "LangGraph billing agent with short-term memory and built-in test UI"
+      source_code_path: .
+      config:
+        command: ["uv", "run", "start-app"]
+        env:
+          - name: MLFLOW_TRACKING_URI
+            value: "databricks"
+          - name: MLFLOW_REGISTRY_URI
+            value: "databricks-uc"
+          - name: MLFLOW_EXPERIMENT_ID
+            value_from: experiment
+          - name: LAKEBASE_ENDPOINT
+            value_from: postgres
+          # Backend (agent API) owns the app port 8000 and serves /invocations + /responses.
+          # The chat UI runs internally on CHAT_APP_PORT and is reverse-proxied by the backend
+          # (AgentServer(enable_chat_proxy=True)). API_PROXY points the UI back at the backend.
+          - name: API_PROXY
+            value: "http://localhost:8000/invocations"
+          - name: CHAT_APP_PORT
+            value: "3000"
+          - name: CHAT_PROXY_TIMEOUT_SECONDS
+            value: "300"
+      resources:
+        - name: experiment
+          experiment:
+            experiment_id: ${resources.experiments.agent_experiment.id}
+            permission: CAN_MANAGE
+        - name: postgres
+          postgres:
+            branch: "projects/billing-db-${var.resource_name_suffix}/branches/production"
+            database: "projects/billing-db-${var.resource_name_suffix}/branches/production/databases/${var.lakebase_database_id}"
+            permission: CAN_CONNECT_AND_CREATE
+      permissions:
+        - group_name: users
+          level: CAN_USE
+
+targets:
+  dev:
+    mode: development
+    default: true
+    variables:
+      resource_name_suffix: "dev-${workspace.current_user.domain_friendly_name}"
+
+  prod:
+    mode: production
+    variables:
+      resource_name_suffix: "prod"
